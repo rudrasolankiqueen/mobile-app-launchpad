@@ -8,3 +8,8 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Routing uses TanStack Router file routes (not React Router v6) — the platform stack is fixed.
+- Design tokens live in src/styles.css (`@theme inline` + `:root`), not a tailwind.config — Tailwind v4.
+- TeamFit primitives (SkillTag, TFCard, Modal, EmptyState) live in src/components/teamfit; toasts use sonner.
