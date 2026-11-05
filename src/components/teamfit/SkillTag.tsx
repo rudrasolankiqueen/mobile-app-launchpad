@@ -15,9 +15,9 @@ const skillTagVariants = cva("pill-tag border transition-colors", {
 
 type SkillTagProps = VariantProps<typeof skillTagVariants> & {
   label: string;
-  hasEvidence?: boolean;
+  hasEvidence?: boolean | undefined;
   onRemove?: () => void;
-  className?: string;
+  className?: string | undefined;
 };
 
 export function SkillTag({ label, hasEvidence, onRemove, variant, className }: SkillTagProps) {

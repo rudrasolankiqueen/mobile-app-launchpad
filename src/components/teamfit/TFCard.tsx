@@ -7,8 +7,8 @@ export function TFCard({
   interactive,
 }: {
   children: ReactNode;
-  className?: string;
-  interactive?: boolean;
+  className?: string | undefined;
+  interactive?: boolean | undefined;
 }) {
   return (
     <div
