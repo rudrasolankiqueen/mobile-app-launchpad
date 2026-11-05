@@ -13,3 +13,5 @@
 - Routing uses TanStack Router file routes (not React Router v6) — the platform stack is fixed.
 - Design tokens live in src/styles.css (`@theme inline` + `:root`), not a tailwind.config — Tailwind v4.
 - TeamFit primitives (SkillTag, TFCard, Modal, EmptyState) live in src/components/teamfit; toasts use sonner.
+- Auth: `useAuth()` from src/lib/auth.tsx (single onAuthStateChange listener); `requireAuth(reason, cb)` opens the shared LoginModal. Protected pages live under src/routes/_authenticated (client gate → /login?redirect=).
+- Contact emails are never stored in public tables; reveal them later only via a guarded function after a request is accepted.

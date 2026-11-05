@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { SkillTag } from "@/components/teamfit/SkillTag";
 import { TFCard } from "@/components/teamfit/TFCard";
 import { Modal } from "@/components/teamfit/Modal";
+import { useAuth } from "@/lib/auth";
+import { Link } from "@tanstack/react-router";
 import { EmptyState } from "@/components/teamfit/EmptyState";
 
 export const Route = createFileRoute("/")({
@@ -23,6 +25,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [open, setOpen] = useState(false);
+  const { user, requireAuth } = useAuth();
   return (
     <main className="mx-auto max-w-4xl space-y-10 px-4 py-12">
       <header>
@@ -61,6 +64,14 @@ function Index() {
         <SkillTag label="ML" variant="needed" />
         <SkillTag label="Pitching" variant="neutral" onRemove={() => toast("Removed Pitching")} />
         <Button onClick={() => setOpen(true)}>Open modal</Button>
+        <Button variant="secondary" onClick={() => requireAuth("post", () => toast.success("Signed in — ready to post!"))}>
+          Try contextual login
+        </Button>
+        {user ? (
+          <Button asChild variant="outline"><Link to="/dashboard">Go to Dashboard</Link></Button>
+        ) : (
+          <Button asChild variant="outline"><Link to="/login">Log in</Link></Button>
+        )}
         <Button variant="outline" onClick={() => toast.success("Request sent!")}>Show toast</Button>
       </section>
 
