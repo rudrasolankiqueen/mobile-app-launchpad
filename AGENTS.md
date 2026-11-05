@@ -15,3 +15,4 @@
 - TeamFit primitives (SkillTag, TFCard, Modal, EmptyState) live in src/components/teamfit; toasts use sonner.
 - Auth: `useAuth()` from src/lib/auth.tsx (single onAuthStateChange listener); `requireAuth(reason, cb)` opens the shared LoginModal. Protected pages live under src/routes/_authenticated (client gate → /login?redirect=).
 - Contact emails are never stored in public tables; reveal them later only via a guarded function after a request is accepted.
+- Finder Card logic in src/lib/finder-card.ts; reusable UI (FinderCardForm, FinderCardDisplay, SkillTagInput) in src/components/finder-card. Saving replaces a card's skill_evidence rows.
