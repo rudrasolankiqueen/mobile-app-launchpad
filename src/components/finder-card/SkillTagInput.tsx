@@ -1,9 +1,10 @@
-import { useMemo, useState, type KeyboardEvent } from "react";
+import { useId, useMemo, useState, type KeyboardEvent } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { SkillTag } from "@/components/teamfit/SkillTag";
 import { fetchSkillNames } from "@/lib/finder-card";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 /** Hybrid tag input: pick from the master skill list or type your own. */
 export function SkillTagInput({
@@ -19,7 +20,8 @@ export function SkillTagInput({
   placeholder?: string;
   max?: number;
 }) {
-  const { data: options = [] } = useQuery({ queryKey: ["skills"], queryFn: fetchSkillNames, staleTime: 3_600_000 });
+  const { data: options = [], isError } = useQuery({ queryKey: ["skills"], queryFn: fetchSkillNames, staleTime: 3_600_000 });
+  const listId = useId();
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
   const [active, setActive] = useState(0);
@@ -33,8 +35,10 @@ export function SkillTagInput({
   }, [options, text, lower]);
 
   const trimmed = text.trim();
-  const showCustom = trimmed && !options.some((o) => o.toLowerCase() === trimmed.toLowerCase());
+  const showCustom = trimmed && !lower.includes(trimmed.toLowerCase()) && !options.some((o) => o.toLowerCase() === trimmed.toLowerCase());
   const items = [...matches, ...(showCustom ? [trimmed] : [])];
+  const activeIndex = Math.min(active, Math.max(0, items.length - 1));
+  const expanded = focused && items.length > 0 && value.length < max;
 
   function add(name: string) {
     const n = name.trim().slice(0, 40);
@@ -43,20 +47,23 @@ export function SkillTagInput({
     onChange([...value, canonical]);
     setText("");
     setActive(0);
+    setFocused(false);
   }
 
   function onKey(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter" || e.key === ",") {
       e.preventDefault();
-      add(items[active] ?? trimmed);
+      add(items[activeIndex] ?? trimmed);
     } else if (e.key === "Backspace" && !text && value.length) {
       onChange(value.slice(0, -1));
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActive((a) => Math.min(a + 1, items.length - 1));
+      setActive((a) => Math.max(0, Math.min(a + 1, items.length - 1)));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActive((a) => Math.max(a - 1, 0));
+    } else if (e.key === "Escape") {
+      setFocused(false);
     }
   }
 
@@ -76,28 +83,43 @@ export function SkillTagInput({
           onChange={(e) => {
             setText(e.target.value);
             setActive(0);
+            setFocused(true);
           }}
           onKeyDown={onKey}
           onFocus={() => setFocused(true)}
           onBlur={() => setTimeout(() => setFocused(false), 120)}
           placeholder={value.length ? "" : placeholder}
           aria-label="Add a skill"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={expanded}
+          aria-controls={expanded ? listId : undefined}
+          aria-activedescendant={expanded ? `${listId}-${activeIndex}` : undefined}
+          disabled={value.length >= max}
+          maxLength={40}
           className="min-w-[8rem] flex-1 bg-transparent px-1 py-1 text-sm outline-none placeholder:text-muted-foreground"
         />
       </div>
-      {focused && items.length > 0 && (
-        <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-lg border bg-popover p-1 shadow-card">
+      {value.length >= max && <p className="mt-1 text-xs text-muted-foreground">{max} skills selected</p>}
+      {isError && <p className="mt-1 text-xs text-muted-foreground">Skill suggestions are unavailable. You can still add your own.</p>}
+      {expanded && (
+        <ul id={listId} role="listbox" aria-label="Skills" className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-lg border bg-popover p-1 shadow-card">
           {items.map((o, i) => (
             <li key={o}>
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                role="option"
+                id={`${listId}-${i}`}
+                aria-selected={i === activeIndex}
+                tabIndex={-1}
                 onMouseDown={(e) => {
                   e.preventDefault();
-                  add(o);
                 }}
+                onClick={() => add(o)}
                 className={cn(
-                  "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm",
-                  i === active ? "bg-primary-soft text-primary" : "hover:bg-muted",
+                  "h-auto w-full justify-start whitespace-normal rounded-md px-2 py-1.5 text-left text-sm",
+                  i === activeIndex ? "bg-primary-soft text-primary" : "hover:bg-muted",
                 )}
               >
                 {showCustom && i === items.length - 1 ? (
@@ -107,7 +129,7 @@ export function SkillTagInput({
                 ) : (
                   o
                 )}
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

@@ -16,3 +16,4 @@
 - Auth: `useAuth()` from src/lib/auth.tsx (single onAuthStateChange listener); `requireAuth(reason, cb)` opens the shared LoginModal. Protected pages live under src/routes/_authenticated (client gate → /login?redirect=).
 - Contact emails are never stored in public tables; reveal them later only via a guarded function after a request is accepted.
 - Finder Card logic in src/lib/finder-card.ts; reusable UI (FinderCardForm, FinderCardDisplay, SkillTagInput) in src/components/finder-card. Saving replaces a card's skill_evidence rows.
+- The public Finder Card editor keeps Use Once cards in sessionStorage without database writes; saved profile editing remains authenticated, so temporary cards never overwrite saved cards.

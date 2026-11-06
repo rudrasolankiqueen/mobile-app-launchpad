@@ -4,7 +4,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TFCard } from "@/components/teamfit/TFCard";
 import { Modal } from "@/components/teamfit/Modal";
 import { FinderCardForm } from "@/components/finder-card/FinderCardForm";
 import { FinderCardDisplay } from "@/components/finder-card/FinderCardDisplay";
@@ -38,7 +37,7 @@ function EditProfile() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const key = ["finder-card", "saved", userId];
-  const { data, isLoading } = useQuery({ queryKey: key, queryFn: () => fetchSavedFinderCard(userId), enabled: !!userId });
+  const { data, isLoading, error, refetch } = useQuery({ queryKey: key, queryFn: () => fetchSavedFinderCard(userId), enabled: !!userId });
   const [value, setValue] = useState<FinderCardValue>(emptyFinderCard);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -57,7 +56,10 @@ function EditProfile() {
   });
 
   const remove = useMutation({
-    mutationFn: () => deleteFinderCard(value.id!),
+    mutationFn: () => {
+      if (!value.id) throw new Error("No saved Finder Card to delete");
+      return deleteFinderCard(value.id);
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["finder-card"] });
       setValue(emptyFinderCard);
@@ -79,11 +81,13 @@ function EditProfile() {
       <p className="mt-1 text-sm text-muted-foreground">Saved once, reused whenever you post or apply.</p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_340px]">
-        <TFCard className="p-6">
+        <div className="min-w-0">
           {isLoading ? (
             <div className="space-y-3">
               <Skeleton className="h-10" /> <Skeleton className="h-11" /> <Skeleton className="h-6 w-40" />
             </div>
+          ) : error ? (
+            <div role="alert" className="space-y-3"><p className="text-sm text-destructive">Your saved card could not be loaded.</p><Button variant="outline" onClick={() => refetch()}>Try again</Button></div>
           ) : (
             <FinderCardForm value={value} onChange={setValue} />
           )}
@@ -97,10 +101,10 @@ function EditProfile() {
             )}
             <div className="flex gap-2">
               <Button variant="outline" onClick={() => navigate({ to: "/dashboard" })}>Cancel</Button>
-              <Button onClick={onSave} disabled={save.isPending}>{save.isPending ? "Saving…" : "Save"}</Button>
+              <Button onClick={onSave} disabled={save.isPending || remove.isPending || isLoading || !!error}>{save.isPending ? "Saving…" : "Save"}</Button>
             </div>
           </div>
-        </TFCard>
+        </div>
 
         <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Preview</p>

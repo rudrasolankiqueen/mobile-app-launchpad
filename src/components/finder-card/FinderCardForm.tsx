@@ -7,6 +7,8 @@ import { SkillTag } from "@/components/teamfit/SkillTag";
 import { hasEvidence, safeUrl, type FinderCardValue, type SkillEntry } from "@/lib/finder-card";
 import { SkillTagInput } from "./SkillTagInput";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export type SaveMode = "save" | "once";
 
@@ -58,33 +60,30 @@ export function FinderCardForm({
             return s ? hasEvidence(s) : false;
           }}
         />
-        <p className="text-xs text-muted-foreground">Pick from the list or type your own and press Enter.</p>
       </div>
 
-      <button
+      <Button
         type="button"
+        variant="link"
         onClick={() => setMore(!more)}
-        className="flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+        className="h-auto justify-start gap-1 p-0"
         aria-expanded={more}
       >
         <ChevronDown className={cn("size-4 transition-transform", more && "rotate-180")} />
         {more ? "Hide details" : "Add more details"}
-      </button>
+      </Button>
 
       {more && (
-        <div className="space-y-5 rounded-xl border bg-muted/40 p-4">
+        <div className="space-y-5 border-t pt-4">
           <div className="space-y-3">
             <div>
               <p className="text-sm font-medium">Evidence per skill</p>
-              <p className="text-xs text-muted-foreground">
-                Skills with a project, result or link get a teal checkmark.
-              </p>
             </div>
             {value.skills.length === 0 && <p className="text-sm text-muted-foreground">Add skills above first.</p>}
             {value.skills.map((s, i) => {
               const badUrl = s.evidenceUrl.trim() !== "" && !safeUrl(s.evidenceUrl);
               return (
-                <div key={s.name} className="space-y-2 rounded-lg border bg-card p-3">
+                <div key={s.name} className="space-y-2 border-b pb-3">
                   <SkillTag label={s.name} hasEvidence={hasEvidence(s)} />
                   <div className="grid gap-2 sm:grid-cols-2">
                     <Input
@@ -124,29 +123,26 @@ export function FinderCardForm({
       )}
 
       {saveMode && onSaveModeChange && (
-        <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Save this card?">
+        <RadioGroup value={saveMode} onValueChange={(m) => { if (m === "save" || m === "once") onSaveModeChange(m); }} className="grid gap-3 sm:grid-cols-2" aria-label="Save this card?">
           {(
             [
               ["save", "Save Profile", "Reuse and edit it next time"],
               ["once", "Use Once", "Only for this time"],
             ] as const
           ).map(([m, title, sub]) => (
-            <button
+            <Label
               key={m}
-              type="button"
-              role="radio"
-              aria-checked={saveMode === m}
-              onClick={() => onSaveModeChange(m)}
+              htmlFor={`fc-mode-${m}`}
               className={cn(
-                "rounded-lg border p-3 text-left transition-colors",
+                "flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-left transition-colors",
                 saveMode === m ? "border-primary bg-primary-soft" : "bg-card hover:border-primary/40",
               )}
             >
-              <p className="text-sm font-semibold">{title}</p>
-              <p className="text-xs text-muted-foreground">{sub}</p>
-            </button>
+              <RadioGroupItem id={`fc-mode-${m}`} value={m} className="mt-0.5 shrink-0" />
+              <span className="min-w-0 space-y-1"><span className="block text-sm font-semibold">{title}</span><span className="block text-xs font-normal text-muted-foreground">{sub}</span></span>
+            </Label>
           ))}
-        </div>
+        </RadioGroup>
       )}
     </div>
   );

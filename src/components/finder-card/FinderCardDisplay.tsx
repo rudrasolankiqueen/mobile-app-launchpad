@@ -3,6 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { SkillTag } from "@/components/teamfit/SkillTag";
 import { TFCard } from "@/components/teamfit/TFCard";
 import { hasEvidence, safeUrl, type FinderCardValue } from "@/lib/finder-card";
+import { Button } from "@/components/ui/button";
 
 function initials(name: string) {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join("") || "?";
@@ -46,22 +47,22 @@ export function FinderCardDisplay({
       )}
 
       {card.personalNote && (
-        <p className={`mt-3 text-sm italic text-muted-foreground ${compact ? "line-clamp-2" : ""}`}>
+        <p className={`mt-3 break-words text-sm italic text-muted-foreground ${compact ? "line-clamp-2" : ""}`}>
           “{card.personalNote}”
         </p>
       )}
 
       {!compact && withEvidence.length > 0 && (
         <div className="mt-4 border-t pt-3">
-          <button type="button" onClick={() => setOpen(!open)} className="text-sm font-medium text-primary hover:underline">
+          <Button type="button" variant="link" onClick={() => setOpen(!open)} aria-expanded={open} className="h-auto p-0">
             {open ? "Hide evidence" : `Show evidence (${withEvidence.length})`}
-          </button>
+          </Button>
           {open && (
             <ul className="mt-3 space-y-2">
               {withEvidence.map((s) => {
                 const url = safeUrl(s.evidenceUrl);
                 return (
-                  <li key={s.name} className="text-sm">
+                  <li key={s.name} className="break-words text-sm">
                     <span className="font-medium">{s.name}</span>
                     {s.evidence && <span className="text-muted-foreground"> — {s.evidence}</span>}
                     {url && (

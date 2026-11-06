@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/teamfit/EmptyState";
 import { useAuth } from "@/lib/auth";
@@ -29,6 +29,7 @@ function Dashboard() {
         <Button variant="outline" onClick={signOut}>Log out</Button>
       </div>
       <EmptyState title="Your dashboard is coming soon" description="Listings, requests and your saved Finder Card will show up here." />
+      <Button asChild><Link to="/profile/edit">Edit your Finder Card</Link></Button>
     </main>
   );
 }

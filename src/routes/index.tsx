@@ -61,6 +61,7 @@ function Index() {
       </section>
 
       <section className="flex flex-wrap gap-3">
+        <Button asChild><Link to="/finder-card">Create your Finder Card</Link></Button>
         <SkillTag label="ML" variant="needed" />
         <SkillTag label="Pitching" variant="neutral" onRemove={() => toast("Removed Pitching")} />
         <Button onClick={() => setOpen(true)}>Open modal</Button>

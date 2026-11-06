@@ -103,10 +103,11 @@ export async function saveFinderCard(userId: string, v: FinderCardValue, isSaved
     if (error) throw error;
     id = data.id;
   }
+  if (!id) throw new Error("The Finder Card could not be saved");
   if (v.skills.length) {
     const { error } = await supabase.from("skill_evidence").insert(
       v.skills.map((s, i) => ({
-        finder_card_id: id!,
+        finder_card_id: id,
         skill_name: s.name,
         evidence: s.evidence.trim() || null,
         evidence_url: safeUrl(s.evidenceUrl),
@@ -115,7 +116,7 @@ export async function saveFinderCard(userId: string, v: FinderCardValue, isSaved
     );
     if (error) throw error;
   }
-  return id!;
+  return id;
 }
 
 export async function deleteFinderCard(id: string) {
