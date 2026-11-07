@@ -1,6 +1,6 @@
 @import "tailwindcss" source(none);
-@source "../src";
 @import "tw-animate-css";
+@source "../src";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -69,6 +69,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-overlay: var(--overlay);
+  --color-cover-foreground: var(--cover-foreground);
+  --color-cover-muted: var(--cover-muted);
+  --color-evidence: var(--evidence);
 }
 
 :root {
@@ -113,6 +117,22 @@
   --sidebar-ring: oklch(0.511 0.23 276.97);
   --shadow-card: 0 1px 2px oklch(0.208 0.042 265.755 / 0.04), 0 4px 16px -4px oklch(0.208 0.042 265.755 / 0.08);
   --shadow-card-hover: 0 2px 4px oklch(0.208 0.042 265.755 / 0.05), 0 12px 28px -8px oklch(0.511 0.23 276.97 / 0.22);
+  --overlay: oklch(0.18 0.005 260);
+  --cover-foreground: oklch(1 0 0);
+  --cover-muted: oklch(0.9 0.005 260);
+  --evidence: oklch(0.48 0.085 215);
+  --cover-shade: linear-gradient(90deg, oklch(0.16 0.005 260 / 0.95) 0%, oklch(0.16 0.005 260 / 0.87) 32%, oklch(0.16 0.005 260 / 0.12) 75%);
+  --cover-shade-mobile: linear-gradient(90deg, oklch(0.16 0.005 260 / 0.93), oklch(0.16 0.005 260 / 0.65));
+}
+
+.campus-hero { min-height: min(560px, calc(100svh - 145px)); }
+.campus-shade { background: var(--cover-shade); }
+@media (max-width: 767px) {
+  .campus-hero { min-height: min(480px, calc(100svh - 125px)); }
+  .campus-shade { background: var(--cover-shade-mobile); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
 @layer base {

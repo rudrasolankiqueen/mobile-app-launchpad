@@ -11,13 +11,22 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CreateListingRouteImport } from './routes/create-listing'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as FinderCardRouteImport } from './routes/finder-card'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as ListingIdRouteImport } from './routes/listing.$id'
+import { Route as LookingToJoinCreateRouteImport } from './routes/looking-to-join.create'
 import { Route as AuthenticatedProfileEditRouteImport } from './routes/_authenticated/profile.edit'
+import { Route as ListingIdEditRouteImport } from './routes/listing.$id_.edit'
+import { Route as LookingToJoinIdEditRouteImport } from './routes/looking-to-join.$id_.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -26,6 +35,21 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateListingRoute = CreateListingRouteImport.update({
+  id: '/create-listing',
+  path: '/create-listing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinderCardRoute = FinderCardRouteImport.update({
@@ -43,6 +67,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -58,87 +87,175 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const ListingIdRoute = ListingIdRouteImport.update({
+  id: '/listing/$id',
+  path: '/listing/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LookingToJoinCreateRoute = LookingToJoinCreateRouteImport.update({
+  id: '/looking-to-join/create',
+  path: '/looking-to-join/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedProfileEditRoute =
   AuthenticatedProfileEditRouteImport.update({
     id: '/profile/edit',
     path: '/profile/edit',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ListingIdEditRoute = ListingIdEditRouteImport.update({
+  id: '/listing/$id_/edit',
+  path: '/listing/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LookingToJoinIdEditRoute = LookingToJoinIdEditRouteImport.update({
+  id: '/looking-to-join/$id_/edit',
+  path: '/looking-to-join/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/create-listing': typeof CreateListingRoute
+  '/explore': typeof ExploreRoute
   '/finder-card': typeof FinderCardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/listing/$id': typeof ListingIdRoute
+  '/looking-to-join/create': typeof LookingToJoinCreateRoute
   '/profile/edit': typeof AuthenticatedProfileEditRoute
+  '/listing/$id/edit': typeof ListingIdEditRoute
+  '/looking-to-join/$id/edit': typeof LookingToJoinIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/create-listing': typeof CreateListingRoute
+  '/explore': typeof ExploreRoute
   '/finder-card': typeof FinderCardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/listing/$id': typeof ListingIdRoute
+  '/looking-to-join/create': typeof LookingToJoinCreateRoute
   '/profile/edit': typeof AuthenticatedProfileEditRoute
+  '/listing/$id/edit': typeof ListingIdEditRoute
+  '/looking-to-join/$id/edit': typeof LookingToJoinIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/create-listing': typeof CreateListingRoute
+  '/explore': typeof ExploreRoute
   '/finder-card': typeof FinderCardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/listing/$id': typeof ListingIdRoute
+  '/looking-to-join/create': typeof LookingToJoinCreateRoute
   '/_authenticated/profile/edit': typeof AuthenticatedProfileEditRoute
+  '/listing/$id_/edit': typeof ListingIdEditRoute
+  '/looking-to-join/$id_/edit': typeof LookingToJoinIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/create-listing'
+    | '/explore'
     | '/finder-card'
     | '/forgot-password'
     | '/login'
+    | '/privacy'
     | '/reset-password'
     | '/signup'
     | '/dashboard'
+    | '/notifications'
+    | '/listing/$id'
+    | '/looking-to-join/create'
     | '/profile/edit'
+    | '/listing/$id/edit'
+    | '/looking-to-join/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/create-listing'
+    | '/explore'
     | '/finder-card'
     | '/forgot-password'
     | '/login'
+    | '/privacy'
     | '/reset-password'
     | '/signup'
     | '/dashboard'
+    | '/notifications'
+    | '/listing/$id'
+    | '/looking-to-join/create'
     | '/profile/edit'
+    | '/listing/$id/edit'
+    | '/looking-to-join/$id/edit'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/about'
+    | '/create-listing'
+    | '/explore'
     | '/finder-card'
     | '/forgot-password'
     | '/login'
+    | '/privacy'
     | '/reset-password'
     | '/signup'
     | '/_authenticated/dashboard'
+    | '/_authenticated/notifications'
+    | '/listing/$id'
+    | '/looking-to-join/create'
     | '/_authenticated/profile/edit'
+    | '/listing/$id_/edit'
+    | '/looking-to-join/$id_/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  CreateListingRoute: typeof CreateListingRoute
+  ExploreRoute: typeof ExploreRoute
   FinderCardRoute: typeof FinderCardRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
+  ListingIdRoute: typeof ListingIdRoute
+  LookingToJoinCreateRoute: typeof LookingToJoinCreateRoute
+  ListingIdEditRoute: typeof ListingIdEditRoute
+  LookingToJoinIdEditRoute: typeof LookingToJoinIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -155,6 +272,27 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create-listing': {
+      id: '/create-listing'
+      path: '/create-listing'
+      fullPath: '/create-listing'
+      preLoaderRoute: typeof CreateListingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finder-card': {
@@ -178,6 +316,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -199,6 +344,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/listing/$id': {
+      id: '/listing/$id'
+      path: '/listing/$id'
+      fullPath: '/listing/$id'
+      preLoaderRoute: typeof ListingIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/looking-to-join/create': {
+      id: '/looking-to-join/create'
+      path: '/looking-to-join/create'
+      fullPath: '/looking-to-join/create'
+      preLoaderRoute: typeof LookingToJoinCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/profile/edit': {
       id: '/_authenticated/profile/edit'
       path: '/profile/edit'
@@ -206,16 +372,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileEditRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/listing/$id_/edit': {
+      id: '/listing/$id_/edit'
+      path: '/listing/$id/edit'
+      fullPath: '/listing/$id/edit'
+      preLoaderRoute: typeof ListingIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/looking-to-join/$id_/edit': {
+      id: '/looking-to-join/$id_/edit'
+      path: '/looking-to-join/$id/edit'
+      fullPath: '/looking-to-join/$id/edit'
+      preLoaderRoute: typeof LookingToJoinIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedProfileEditRoute: typeof AuthenticatedProfileEditRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedProfileEditRoute: AuthenticatedProfileEditRoute,
 }
 
@@ -225,11 +407,19 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  CreateListingRoute: CreateListingRoute,
+  ExploreRoute: ExploreRoute,
   FinderCardRoute: FinderCardRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
+  ListingIdRoute: ListingIdRoute,
+  LookingToJoinCreateRoute: LookingToJoinCreateRoute,
+  ListingIdEditRoute: ListingIdEditRoute,
+  LookingToJoinIdEditRoute: LookingToJoinIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

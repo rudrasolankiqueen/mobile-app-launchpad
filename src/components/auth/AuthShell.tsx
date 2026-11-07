@@ -4,7 +4,7 @@ import { TFCard } from "@/components/teamfit/TFCard";
 
 export function AuthShell({ title, subtitle, children }: { title: string; subtitle: string; children: ReactNode }) {
   return (
-    <main className="flex min-h-screen items-center justify-center px-4 py-12">
+    <main className="flex min-h-[65svh] items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
         <Link to="/" className="mb-6 block text-center text-xl font-extrabold tracking-tight text-primary">
           TeamFit

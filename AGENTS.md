@@ -17,3 +17,5 @@
 - Contact emails are never stored in public tables; reveal them later only via a guarded function after a request is accepted.
 - Finder Card logic in src/lib/finder-card.ts; reusable UI (FinderCardForm, FinderCardDisplay, SkillTagInput) in src/components/finder-card. Saving replaces a card's skill_evidence rows.
 - The public Finder Card editor keeps Use Once cards in sessionStorage without database writes; saved profile editing remains authenticated, so temporary cards never overwrite saved cards.
+- Shared navigation and footer mount once inside the root AuthProvider, so every screen uses the same session-aware shell.
+- Listing detail and edit routes use un-nested sibling files, so detail screens do not need an Outlet; unfinished product screens remain explicit placeholders.
