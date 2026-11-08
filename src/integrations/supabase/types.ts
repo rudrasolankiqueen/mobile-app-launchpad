@@ -274,6 +274,7 @@ export type Database = {
           id: string
           open_spots: number | null
           owner_id: string
+          search_vector: unknown
           skills_needed: string[]
           status: string
           updated_at: string
@@ -287,6 +288,7 @@ export type Database = {
           id?: string
           open_spots?: number | null
           owner_id: string
+          search_vector?: unknown
           skills_needed?: string[]
           status?: string
           updated_at?: string
@@ -300,6 +302,7 @@ export type Database = {
           id?: string
           open_spots?: number | null
           owner_id?: string
+          search_vector?: unknown
           skills_needed?: string[]
           status?: string
           updated_at?: string
@@ -320,6 +323,7 @@ export type Database = {
     }
     Functions: {
       owns_finder_card: { Args: { _card_id: string }; Returns: boolean }
+      save_team_listing: { Args: { payload: Json }; Returns: string }
     }
     Enums: {
       [_ in never]: never

@@ -10,3 +10,10 @@
 - [x] Make the shared editor and both card displays available; connect profile editing.
 - [x] Test card rules and interactions; verify desktop and phone layouts.
 - [ ] Verify authenticated save/edit/delete — blocked: this external Supabase project has no available authenticated test session.
+
+# Phase 4: Team Listings
+- [ ] Build create/edit, draft access and post-save profile prompt.
+- [ ] Build public, owner and already-requested listing detail views.
+- [ ] Build searchable Explore with filters, sorting and pagination; reserve Looking to Join for Phase 7.
+- [ ] Add full-text index, validation and atomic listing saves.
+- [ ] Test listing rules and public flows; verify authenticated flows if a session is available.

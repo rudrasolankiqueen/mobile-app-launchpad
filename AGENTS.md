@@ -19,3 +19,5 @@
 - The public Finder Card editor keeps Use Once cards in sessionStorage without database writes; saved profile editing remains authenticated, so temporary cards never overwrite saved cards.
 - Shared navigation and footer mount once inside the root AuthProvider, so every screen uses the same session-aware shell.
 - Listing detail and edit routes use un-nested sibling files, so detail screens do not need an Outlet; unfinished product screens remain explicit placeholders.
+- Listing reads use Query-backed public server functions; signed-in supplements and writes use authenticated server functions with the global bearer attacher, so drafts remain owner-only.
+- Listing saves use an invoker-rights database transaction that copies a listing-specific Finder Card; saved profiles are only updated by an explicit separate choice.
