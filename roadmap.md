@@ -12,7 +12,7 @@
 - [ ] Verify authenticated save/edit/delete — blocked: this external Supabase project has no available authenticated test session.
 
 # Phase 4: Team Listings
-- [ ] Build create/edit, draft access and post-save profile prompt.
+- [ ] Finish create/edit, draft access and post-save profile prompt; fix the editor type error.
 - [ ] Build public, owner and already-requested listing detail views.
 - [ ] Build searchable Explore with filters, sorting and pagination; reserve Looking to Join for Phase 7.
 - [ ] Add full-text index, validation and atomic listing saves.

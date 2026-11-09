@@ -21,3 +21,4 @@
 - Listing detail and edit routes use un-nested sibling files, so detail screens do not need an Outlet; unfinished product screens remain explicit placeholders.
 - Listing reads use Query-backed public server functions; signed-in supplements and writes use authenticated server functions with the global bearer attacher, so drafts remain owner-only.
 - Listing saves use an invoker-rights database transaction that copies a listing-specific Finder Card; saved profiles are only updated by an explicit separate choice.
+- Owner draft management lives in the authenticated listings page linked from Dashboard; public detail loaders never retrieve drafts.

@@ -28,7 +28,8 @@ function Dashboard() {
         </div>
         <Button variant="outline" onClick={signOut}>Log out</Button>
       </div>
-      <EmptyState title="Your dashboard is coming soon" description="Listings, requests and your saved Finder Card will show up here." />
+      <Button asChild><Link to="/listings">Your listings & drafts</Link></Button>
+      <EmptyState title="More dashboard sections are coming soon" description="Requests and Looking to Join cards will show up here in later phases." />
       <Button asChild><Link to="/profile/edit">Edit your Finder Card</Link></Button>
     </main>
   );

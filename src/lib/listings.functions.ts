@@ -13,9 +13,10 @@ function publicClient() {
 }
 export const exploreListings = createServerFn({ method: "GET" }).inputValidator((v: unknown) => exploreSchema.parse(v)).handler(async ({ data }) => {
   const f = safeFilters(data);
+  if (f.tab === "join") return { rows: [], count: 0 };
   let query = publicClient().from("team_listings").select(selection, { count: "exact" }).eq("status", "active");
   if (f.q.trim()) query = query.textSearch("search_vector", f.q.trim(), { type: "websearch", config: "english" });
-  if (f.skill) query = query.contains("skills_needed", [f.skill]);
+  if (f.skill) { const { data: skills } = await publicClient().from("skills").select("name").ilike("name", f.skill); query = query.contains("skills_needed", [skills?.find(s => s.name.toLowerCase() === f.skill.toLowerCase())?.name ?? f.skill]); }
   if (f.deadline) query = query.lte("deadline", f.deadline);
   query = query.order(f.sort === "deadline" ? "deadline" : "created_at", { ascending: f.sort === "deadline", nullsFirst: false }).order("id");
   const { data: rows, error, count } = await query.range((f.page - 1) * 9, f.page * 9 - 1);
@@ -33,7 +34,9 @@ export const getOwnListings = createServerFn({ method: "GET" }).middleware([requ
 export const getListingSession = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).inputValidator((v: unknown) => z.string().uuid().parse(v)).handler(async ({ data: id, context }) => {
   const { data: listing, error } = await context.supabase.from("team_listings").select(selection).eq("id", id).maybeSingle();
   if (error) throw new Error("Couldn't load listing");
-  const { data: requests, error: requestError } = await context.supabase.from("interest_requests").select("id,sender_id,status,created_at,finder_card_snapshot,message").eq("listing_id", id).order("created_at", { ascending: false });
+  let requestQuery = context.supabase.from("interest_requests").select("id,sender_id,status,created_at,finder_card_snapshot,message").eq("listing_id", id);
+  if (listing?.owner_id !== context.userId) requestQuery = requestQuery.eq("sender_id", context.userId);
+  const { data: requests, error: requestError } = await requestQuery.order("created_at", { ascending: false });
   if (requestError) throw new Error("Couldn't load requests");
   return { listing, requests: requests ?? [] };
 });
