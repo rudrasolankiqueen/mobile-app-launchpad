@@ -5,6 +5,7 @@ import { pageHead } from "@/lib/page-head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { ListingCard } from "@/components/teamfit/ListingCard";
 import { EmptyState } from "@/components/teamfit/EmptyState";
 import { ListingError, ListingMissing } from "@/components/teamfit/ListingBoundary";
@@ -35,7 +36,7 @@ function Explore() {
         <div className="space-y-2 lg:col-span-2"><Label htmlFor="search-teams">Search teams</Label><Input id="search-teams" name="q" defaultValue={filters.q} maxLength={120} placeholder="Event, project or skill" /></div>
         <div className="space-y-2"><Label htmlFor="filter-skill">Skill needed</Label><Input id="filter-skill" name="skill" defaultValue={filters.skill} maxLength={40} placeholder="e.g. React" /></div>
         <div className="space-y-2"><Label htmlFor="filter-deadline">Deadline on or before</Label><Input id="filter-deadline" name="deadline" type="date" defaultValue={filters.deadline} /></div>
-        <div className="space-y-2"><Label htmlFor="sort-teams">Sort by</Label><select id="sort-teams" name="sort" defaultValue={filters.sort} className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm"><option value="newest">Newest first</option><option value="deadline">Deadline first</option></select></div>
+        <div className="space-y-2"><Label htmlFor="sort-teams">Sort by</Label><Select name="sort" defaultValue={filters.sort}><SelectTrigger id="sort-teams"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="newest">Newest first</SelectItem><SelectItem value="deadline">Deadline first</SelectItem></SelectContent></Select></div>
         <div className="flex gap-2 lg:col-span-5"><Button type="submit"><Search className="size-4" />Search</Button><Button type="button" variant="ghost" onClick={() => update({ q: "", skill: "", deadline: "", sort: "newest" })}>Clear filters</Button></div>
       </form>
       <p className="my-6 text-sm text-muted-foreground">{data.count} {data.count === 1 ? "team" : "teams"}</p>

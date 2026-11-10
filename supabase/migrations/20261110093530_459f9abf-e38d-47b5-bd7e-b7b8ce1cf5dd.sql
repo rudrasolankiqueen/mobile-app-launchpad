@@ -1,0 +1,3 @@
+ALTER POLICY "Finder cards are public" ON public.finder_cards USING (is_saved OR EXISTS (SELECT 1 FROM public.team_listings l WHERE l.finder_card_id = finder_cards.id AND l.status <> 'draft') OR EXISTS (SELECT 1 FROM public.looking_to_join_cards l WHERE l.finder_card_id = finder_cards.id AND l.status <> 'draft'));
+CREATE POLICY "Owners read own finder cards" ON public.finder_cards FOR SELECT TO authenticated USING (user_id = auth.uid());
+ALTER POLICY "Skill evidence is public" ON public.skill_evidence USING (EXISTS (SELECT 1 FROM public.finder_cards f WHERE f.id = skill_evidence.finder_card_id));

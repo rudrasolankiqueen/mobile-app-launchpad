@@ -9,6 +9,7 @@ export function ListingCard({ listing: l }: { listing: Listing }) {
     <p className="mt-2 text-sm text-muted-foreground">{l.finder_cards?.display_name ?? "Team organizer"}{l.finder_cards?.college ? ` · ${l.finder_cards.college}` : ""}</p>
     <p className="mt-4 line-clamp-3 break-words text-sm">{l.description || "A new team is taking shape."}</p>
     <div className="my-4 flex flex-wrap gap-1.5">{l.skills_needed.map(s => <SkillTag key={s} label={s} />)}</div>
+    {l.finder_cards?.personal_note && <p className="mb-4 line-clamp-2 break-words text-sm italic text-muted-foreground">“{l.finder_cards.personal_note}”</p>}
     <div className="mt-auto flex flex-wrap gap-3 border-t pt-3 text-xs text-muted-foreground"><span className="flex items-center gap-1"><CalendarDays className="size-3.5" />{l.deadline ?? "No deadline"}</span>{l.open_spots && <span className="flex items-center gap-1"><Users className="size-3.5" />{l.open_spots} open spots</span>}<span className="capitalize">{l.status}</span></div>
   </TFCard>;
 }

@@ -6,4 +6,4 @@ export const Route = createFileRoute("/listing/$id_/edit")({
   head: () => pageHead("Edit Listing", "Update your TeamFit event and team requirements."),
   component: EditListing,
 });
-function EditListing() { const { id } = Route.useParams(); return <ListingEditor id={id} />; }
+function EditListing() { const { id } = Route.useParams(); return <ListingEditor key={id} id={id} />; }
