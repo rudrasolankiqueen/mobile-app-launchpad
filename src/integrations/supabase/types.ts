@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_rate_limits: {
+        Row: {
+          bucket: string
+          request_count: number
+          window_start: string
+        }
+        Insert: {
+          bucket: string
+          request_count?: number
+          window_start: string
+        }
+        Update: {
+          bucket?: string
+          request_count?: number
+          window_start?: string
+        }
+        Relationships: []
+      }
+      ai_usage_log: {
+        Row: {
+          cost_credits: number
+          created_at: string
+          error_code: string | null
+          feature: string
+          id: string
+          input_tokens: number
+          ip_hash: string | null
+          latency_ms: number | null
+          model: string
+          output_tokens: number
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          cost_credits?: number
+          created_at?: string
+          error_code?: string | null
+          feature: string
+          id?: string
+          input_tokens?: number
+          ip_hash?: string | null
+          latency_ms?: number | null
+          model: string
+          output_tokens?: number
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          cost_credits?: number
+          created_at?: string
+          error_code?: string | null
+          feature?: string
+          id?: string
+          input_tokens?: number
+          ip_hash?: string | null
+          latency_ms?: number | null
+          model?: string
+          output_tokens?: number
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       finder_cards: {
         Row: {
           college: string | null
@@ -322,6 +385,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_ai_request: {
+        Args: {
+          _bucket: string
+          _daily_cap_credits: number
+          _feature: string
+          _ip_hash: string
+          _limit: number
+          _model: string
+          _reserve_credits: number
+          _user_id: string
+          _window_seconds: number
+        }
+        Returns: string
+      }
       owns_finder_card: { Args: { _card_id: string }; Returns: boolean }
       save_team_listing: { Args: { payload: Json }; Returns: string }
     }
