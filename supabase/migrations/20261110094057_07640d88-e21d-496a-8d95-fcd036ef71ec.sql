@@ -1,0 +1,2 @@
+CREATE POLICY "Only the app server manages AI counters" ON public.ai_rate_limits FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY "Only the app server manages AI usage" ON public.ai_usage_log FOR ALL TO service_role USING (true) WITH CHECK (true);
